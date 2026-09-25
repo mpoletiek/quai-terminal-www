@@ -3,7 +3,43 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.quaiterminal.org"
+        }
+      ],
+      "destination": "https://quaiterminal.org/$1",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/install.sh",
+      "destination": "https://raw.githubusercontent.com/mpoletiek/quai-terminal/main/install.sh"
+    },
+    {
+      "source": "/uninstall.sh",
+      "destination": "https://raw.githubusercontent.com/mpoletiek/quai-terminal/main/uninstall.sh"
+    }
+  ],
   "headers": [
+    {
+      "source": "/(install|uninstall).sh",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
+    },
     {
       "source": "/assets/(.*)",
       "headers": [

@@ -11,6 +11,11 @@ npm run preview   # serve dist/
 
 ## Deploy (Vercel)
 
+Production is **https://quaiterminal.org** (`www.` redirects to the apex). DNS lives at Cloudflare: an `A @ 76.76.21.21` record and a `CNAME www cname.vercel-dns.com` record, both DNS-only (grey cloud).
+
+**Installer URLs.** `quaiterminal.org/install.sh` and `/uninstall.sh` are rewrites that proxy the scripts from the wallet repo's `main` branch, so the site never holds a stale copy. They're served as `text/plain` with a 5-minute cache. `curl -fsSL https://quaiterminal.org/install.sh | sh` gets the script directly, with no redirect to follow.
+
+
 Import the repo in Vercel. It detects Vite on its own, and `vercel.json` pins the build (`npm run build` → `dist`). It also sets these headers:
 
 - long-lived caching for `/assets/*`
