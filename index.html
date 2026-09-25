@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en" data-theme="quai-red">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quai Terminal: self-custodial wallet &amp; trading terminal for Quai Network</title>
+<meta name="description" content="A keyboard-first, self-custodial wallet and trading terminal for Quai Network. QUAI and Qi, markets, swaps, NFTs and sealed messages in one open-source Rust binary.">
+<meta name="keywords" content="Quai Network, Quai Terminal, QUAI, Qi, crypto wallet, self-custody, TUI wallet, CLI wallet, Rust, Quainance, trading terminal, cypherpunk">
+<meta name="author" content="mpoletiek">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://quai-terminal-www.vercel.app/">
+<meta name="theme-color" content="#080606">
+<meta name="color-scheme" content="dark">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Quai Terminal">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://quai-terminal-www.vercel.app/">
+<meta property="og:title" content="Quai Terminal: your keys, your terminal">
+<meta property="og:description" content="A self-custodial wallet and trading terminal for Quai Network, driven entirely from the keyboard. Open source. Alpha. Coming soon.">
+<meta property="og:image" content="https://quai-terminal-www.vercel.app/og.png">
+<meta property="og:image:secure_url" content="https://quai-terminal-www.vercel.app/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Quai Terminal pixel wordmark over red digital rain, with the line: Your keys. Your terminal.">
+
+<!-- X / Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quai Terminal: your keys, your terminal">
+<meta name="twitter:description" content="A self-custodial wallet and trading terminal for Quai Network, driven entirely from the keyboard. Open source. Alpha. Coming soon.">
+<meta name="twitter:image" content="https://quai-terminal-www.vercel.app/og.png">
+<meta name="twitter:image:alt" content="Quai Terminal pixel wordmark over red digital rain, with the line: Your keys. Your terminal.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Quai Terminal",
+  "description": "A self-custodial, keyboard-first wallet and trading terminal for Quai Network: QUAI and Qi, markets, swaps, NFTs and sealed messages in one Rust binary, with a TUI and a scriptable CLI.",
+  "url": "https://quai-terminal-www.vercel.app/",
+  "image": "https://quai-terminal-www.vercel.app/og.png",
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "Cryptocurrency wallet",
+  "operatingSystem": "Linux, macOS",
+  "softwareVersion": "0.1.0-alpha.5",
+  "license": "https://opensource.org/licenses/MIT",
+  "codeRepository": "https://github.com/mpoletiek/quai-terminal",
+  "programmingLanguage": "Rust",
+  "author": { "@type": "Person", "name": "mpoletiek", "url": "https://github.com/mpoletiek" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/JetBrainsMono-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/src/style.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">skip to content</a>
+
+<!-- ─── header: the TUI's status line ─────────────────────────────────── -->
+<header class="bar" id="bar">
+  <a class="brand" href="#home" aria-label="Quai Terminal, top of page"><span class="dia">◆</span> QUAI TERMINAL</a>
+  <span class="seg hide-s"><span class="ok">●</span> mainnet · cyprus-1</span>
+  <span class="seg hide-m">v0.1.0-alpha.5</span>
+  <span class="seg hide-m dim">unsafe_code = "forbid"</span>
+  <span class="seg now" id="now-section" aria-live="polite">1 home</span>
+  <span class="spacer"></span>
+  <span class="seg soon"><span class="blink">◌</span> coming soon</span>
+  <button class="seg btn-bar" id="open-palette" type="button" aria-label="Open command palette"><kbd>:</kbd><span class="hide-s"> palette</span></button>
+  <button class="seg btn-bar hide-s" id="do-lock" type="button" aria-label="Lock the page"><kbd>L</kbd> lock</button>
+</header>
+
+<!-- ─── rail: the TUI's section list ──────────────────────────────────── -->
+<nav class="rail" aria-label="Sections">
+  <a href="#home" data-n="1"><span class="k">1</span> home</a>
+  <a href="#markets" data-n="2"><span class="k">2</span> markets</a>
+  <a href="#review" data-n="3"><span class="k">3</span> review</a>
+  <a href="#privacy" data-n="4"><span class="k">4</span> privacy</a>
+  <a href="#vault" data-n="5"><span class="k">5</span> vault</a>
+  <a href="#shell" data-n="6"><span class="k">6</span> shell</a>
+  <a href="#themes" data-n="7"><span class="k">7</span> themes</a>
+  <a href="#status" data-n="0"><span class="k">0</span> status</a>
+  <p class="rail-hint">[ j k ] scroll</p>
+</nav>
+
+<main id="main">
+
+<!-- ═══ 1 · HOME ═══════════════════════════════════════════════════════ -->
+<section id="home" class="hero" data-n="1" data-name="home">
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="prompt" aria-hidden="true"><span class="ps">$</span> <span id="typed"></span><span class="cur"></span></p>
+    <div id="wordmark" class="wordmark" role="img" aria-label="Quai Terminal"></div>
+    <p class="creed" aria-hidden="true">keys: <b>local</b> · node: <b>yours</b> · trust: <b>verify</b></p>
+    <h1 class="hero-h">Your keys.<br><span class="acc">Your terminal.</span></h1>
+    <p class="lede">A self-custodial wallet and trading terminal for Quai Network. QUAI and Qi, markets, swaps, NFTs and sealed messages, in one Rust binary you drive from the keyboard.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#teaser" data-action="play-teaser">▶ watch the teaser <kbd>enter</kbd></a>
+      <a class="btn" href="https://github.com/mpoletiek/quai-terminal" rel="noopener">★ watch the repo <kbd>g h</kbd></a>
+    </div>
+    <p class="meta">v0.1 alpha · Linux x86-64 · macOS · MIT · no browser required</p>
+  </div>
+  <a class="scroll-cue" href="#teaser" aria-label="Scroll down"><kbd>j</kbd> ↓</a>
+</section>
+
+<section id="teaser" class="block" data-n="1" data-name="home">
+  <div class="panel lit video-panel">
+    <span class="t">▸ teaser · 75.9s · real footage, no mockups · sound on</span>
+    <div class="player" id="player">
+      <video id="teaser-video" preload="none" poster="/assets/img/teaser-poster.jpg" playsinline>
+        <source src="/assets/video/teaser.mp4" type="video/mp4">
+      </video>
+      <button class="play" id="play-teaser" type="button" aria-label="Play the teaser">
+        <span class="play-glyph">▶</span><span class="play-label">play · enter</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="manifesto" aria-label="Principles">
+    <p><span class="gt">&gt;</span> no browser extension to phish.</p>
+    <p><span class="gt">&gt;</span> no server holding your keys.</p>
+    <p><span class="gt">&gt;</span> no custodian to freeze you.</p>
+    <p><span class="gt">&gt;</span> nothing signed you didn't read.</p>
+    <p class="m-last"><span class="gt">&gt;</span> just math, and a keyboard.<span class="cur"></span></p>
+  </div>
+</section>
+
+<!-- ═══ 2 · MARKETS ════════════════════════════════════════════════════ -->
+<section id="markets" class="block" data-n="2" data-name="markets">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">2</span> markets &amp; trade</p>
+    <h2>Candles. Tape.<br>Every swap live.</h2>
+    <p class="sec-lede">Every Quainance market in one trading view: the main pools, graduated launches and tokens still on their bonding curves. Candles from 15m to 1d, volume bars, and a tape of every swap, with yours marked.</p>
+  </header>
+
+  <div class="grid-2">
+    <figure class="panel clip">
+      <span class="t">markets › pairs</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/markets.jpg" aria-label="Markets view: pair list, candle chart and trade tape">
+        <source src="/assets/video/markets.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <figure class="panel clip">
+      <span class="t">markets › launches · bonding curve</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/curve.jpg" aria-label="A token's bonding curve filling up">
+        <source src="/assets/video/curve.mp4" type="video/mp4">
+      </video>
+    </figure>
+  </div>
+
+  <div class="feats">
+    <article class="feat">
+      <h3><span class="g">⇄</span> routed swaps</h3>
+      <p>Finds the best route, direct or through WQUAI, WQI or USDT. Price impact comes from pool reserves: you're warned above 2% and refused above 50%. Approvals are for the exact amount only.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">○</span> launches on the curve</h3>
+      <p>A token still on its bonding curve is quoted on the curve and on the exchanges, and your trade goes wherever it pays more. You can buy, sell and claim without leaving the terminal.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">◎</span> limit orders, no order book</h3>
+      <p>The wallet watches the price for you. Nothing is posted on-chain. When the target is reachable you're told once, and a fresh review waits for your signature. It never signs by itself.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">▤</span> trader layout</h3>
+      <p>From 140 columns, Markets sits beside the swap card, so the chart stays in view while you trade. You can pin a chat channel to the edge of any screen.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">◧</span> NFTs, verified</h3>
+      <p>Ownership is re-checked on-chain. Browse collections with floor, volume and holders. Buy Bazarr listings in the wallet, where the ask, the seller and the approvals are re-read before the review.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">⌁</span> alerts &amp; daemon</h3>
+      <p>Set price, move and gas alerts. A background daemon watches every wallet when the terminal is closed and sends desktop notifications. It also feeds a Waybar module.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ 3 · REVIEW ═════════════════════════════════════════════════════ -->
+<section id="review" class="block" data-n="3" data-name="review">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">3</span> the review</p>
+    <h2>Nothing signed<br>you didn't read.</h2>
+    <p class="sec-lede">Every transaction opens a review. <b>Reject</b> has focus by default. <b>Approve &amp; sign</b> stays disabled until you've scrolled to the end, and a click only arms it: you sign with a key. Try the one below.</p>
+  </header>
+
+  <div class="review-wrap">
+    <div class="panel lit review" id="review-demo">
+      <span class="t">▸ review · Send QUAI</span>
+      <div class="review-body" id="review-body" tabindex="0" aria-label="Transaction review, scroll to read">
+        <p class="warn">! address poisoning</p>
+        <p class="indent">This address looks like <b>alice</b> (0x00F4…804B), but it isn't. The first and last groups match and the middle doesn't. It has only ever sent you dust.</p>
+        <p class="h">balance changes</p>
+        <p class="indent mono-row"><span class="down">−  250.0000 QUAI</span></p>
+        <p class="indent mono-row"><span class="down">−    0.0021 QUAI</span>   <span class="dim">network fee, at most</span></p>
+        <dl class="kv">
+          <dt>network</dt><dd>Quai Mainnet · cyprus-1</dd>
+          <dt>from</dt><dd class="addr">0x <b>0023</b> 60Bc <b>8E2A</b> 359b <b>E733</b> 5B06 <b>De43</b> F1c7 <b>F040</b> f15a <span class="dim">(Account 1)</span></dd>
+          <dt>to</dt><dd class="addr">0x <b>00F4</b> 1a2B <b>9e1D</b> 77c0 <b>A1f3</b> 0c9E <b>d2B4</b> 6a0F <b>3a4B</b> 804B <span class="warn">first-time recipient</span></dd>
+          <dt>amount</dt><dd>250 QUAI</dd>
+          <dt>max fee</dt><dd>0.0021 QUAI</dd>
+          <dt>read at</dt><dd>block #10,253,532 · <span class="ok">✓ confirmed by two nodes</span></dd>
+          <dt>nonce</dt><dd>97 · released if you reject</dd>
+        </dl>
+        <p class="h">what happens</p>
+        <p class="indent">→ signed and broadcast; included within a few blocks and tracked in Activity</p>
+        <p class="indent"><span class="warn">!</span> once signed and broadcast, it can't be undone</p>
+        <p class="indent dim">y copies this send as the equivalent CLI command</p>
+        <p class="end">— end of review —</p>
+      </div>
+      <div class="review-actions">
+        <button type="button" class="rbtn reject" id="r-reject">Reject · esc</button>
+        <button type="button" class="rbtn approve" id="r-approve" disabled aria-disabled="true">Approve &amp; sign · read to enable</button>
+        <span class="readbar" aria-hidden="true"><span id="r-bar"></span></span>
+        <span class="readpct" id="r-pct">0% read</span>
+      </div>
+      <p class="review-out" id="r-out" role="status" aria-live="polite"></p>
+    </div>
+
+    <ul class="checks">
+      <li><span class="ok">✓</span> <b>Reviews read the chain.</b> Balances, allowances, pair addresses and pinned contract bytecode are read first-hand every time. Nothing a review tells you comes from a cache.</li>
+      <li><span class="ok">✓</span> <b>Two nodes or none.</b> Point it at your own node and every review is read there and witnessed by the main RPC. If the two disagree, the review is refused.</li>
+      <li><span class="ok">✓</span> <b>Contracts it was never taught.</b> It reads the metadata CID out of the deployed bytecode and checks the fetched ABI against it by arithmetic, not trust. Then it simulates the call and prints the exact calldata you'll sign.</li>
+      <li><span class="ok">✓</span> <b>Hostile strings, neutralised.</b> Token names are untrusted display text. Bidi overrides, zero-width characters and control codes are stripped before they reach your screen.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ 4 · PRIVACY ════════════════════════════════════════════════════ -->
+<section id="privacy" class="block" data-n="4" data-name="privacy">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">4</span> qi &amp; privacy</p>
+    <h2>Private by default.<br>Tor if you want it.</h2>
+    <p class="sec-lede">Quai runs two ledgers: QUAI accounts and Qi, UTXO cash that moves in denominations. Quai Terminal handles both natively. Anything that would tell a third party which addresses are yours is off until you turn it on.</p>
+  </header>
+
+  <div class="grid-2">
+    <figure class="panel clip">
+      <span class="t">trade › convert · protocol vs market</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/convert.jpg" aria-label="Convert card comparing the protocol conversion with the market route">
+        <source src="/assets/video/convert.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <figure class="panel clip">
+      <span class="t">home › qi coins · denominations</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/qi_denoms.jpg" aria-label="Qi coin drawer showing denominations">
+        <source src="/assets/video/qi_denoms.mp4" type="video/mp4">
+      </video>
+    </figure>
+  </div>
+
+  <div class="feats">
+    <article class="feat">
+      <h3><span class="g qi">◈</span> Qi, first-class</h3>
+      <p>Coin view by denomination, a fresh address for every receive, gap-50 and deep scans, and consolidation that keeps denominations intact. Private payments go through BIP47 payment codes.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g qi">⇌</span> two markets, one quote</h3>
+      <p>QUAI ↔ Qi, quoted two ways at once: the protocol conversion (locked for weeks) and the market route through Quainance (spendable in minutes). The one that pays more is marked.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">◌</span> the explorer isn't told</h3>
+      <p>In Private mode, the default, explorer.qu.ai never learns your addresses. Set a monitor node and every read goes to your own hardware.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">⛓</span> Tor, fail-closed</h3>
+      <p><code>socks5h://127.0.0.1:9050</code> routes every third-party lookup and node RPC through Tor. If the proxy goes down, requests fail. They never fall back to the clear.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">✉</span> sealed messages</h3>
+      <p>On-chain DMs, each encrypted to one person with HPKE and weekly keys. They're sent from a messaging account, never your main one. Old keys are deleted, so a key stolen later can't read the past.</p>
+    </article>
+    <article class="feat">
+      <h3><span class="g">⏻</span> kill switches</h3>
+      <p>Messaging, trading and NFTs can each be turned off. When a feature is off it's gone: hidden, refused and never polled. <code>--offline-data</code> cuts every third-party lookup for a single command.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ 5 · VAULT ══════════════════════════════════════════════════════ -->
+<section id="vault" class="block" data-n="5" data-name="vault">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">5</span> vault &amp; spec</p>
+    <h2>Keys in the vault.<br>Zeroized on lock.</h2>
+    <p class="sec-lede">It's written in Rust with <code>unsafe</code> forbidden across the whole workspace. Here's the spec sheet.</p>
+  </header>
+
+  <div class="panel spec">
+    <span class="t">▸ spec · cat docs/CRYPTOGRAPHY_AND_ENTROPY.md | head</span>
+    <dl class="spec-kv">
+      <dt>language</dt><dd>Rust 2024 · <code>unsafe_code = "forbid"</code></dd>
+      <dt>vault kdf</dt><dd>Argon2id · 256 MiB · t=3 · p=4 <span class="dim">(a re-seal never lowers cost)</span></dd>
+      <dt>vault cipher</dt><dd>XChaCha20-Poly1305</dd>
+      <dt>on disk</dt><dd>atomic write · mode 0600</dd>
+      <dt>in memory</dt><dd>keys only while unlocked · zeroized on lock and on panic unwind</dd>
+      <dt>secrets in</dt><dd>hidden prompt, piped stdin or <code>--password-fd</code> · <span class="warn">never argv, never env</span></dd>
+      <dt>new wallets</dt><dd>24 words · verification quiz · encrypted backups with verify</dd>
+      <dt>contracts</dt><dd>routers, factories, WQI and WQUAI pinned by bytecode hash</dd>
+      <dt>daemon</dt><dd>password handoff checked with <code>SO_PEERCRED</code> · sent once · never stored</dd>
+      <dt>transport</dt><dd>rustls · no redirects to other hosts · per-host request budgets</dd>
+      <dt>tests</dt><dd>780+ · devnet end-to-end suites for swaps, wraps, NFTs and messaging</dd>
+      <dt>license</dt><dd>MIT</dd>
+    </dl>
+  </div>
+
+  <div class="grid-2 vault-row">
+    <figure class="panel clip">
+      <span class="t">activity › timeline</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/timeline.jpg" aria-label="Transaction timeline: prepared, signed, submitted, confirmed">
+        <source src="/assets/video/timeline.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <figure class="panel clip">
+      <span class="t">$ exit</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/shell.jpg" aria-label="The shell after quitting: its keys were only in this process, which has ended">
+        <source src="/assets/video/shell.mp4" type="video/mp4">
+      </video>
+      <figcaption>"its keys were only in this process, which has ended"</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══ 6 · SHELL ══════════════════════════════════════════════════════ -->
+<section id="shell" class="block" data-n="6" data-name="shell">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">6</span> tui + cli</p>
+    <h2>Two faces.<br>One engine.</h2>
+    <p class="sec-lede">Run <code>quai-terminal</code> with no arguments to get the TUI. Anything the TUI does, the CLI does too, with <code>--json</code> output and stable exit codes. The command palette gives you the CLI form of any action with <kbd>ctrl-y</kbd>.</p>
+  </header>
+
+  <div class="grid-2 shell-row">
+    <div class="panel term">
+      <span class="t">▸ zsh · ~/</span>
+      <pre class="term-body" id="term" aria-label="Example commands"></pre>
+    </div>
+    <div class="panel keys-panel">
+      <span class="t">? keys · same key, same meaning, everywhere</span>
+      <dl class="keys-kv">
+        <dt><kbd>1</kbd>–<kbd>6</kbd> <kbd>0</kbd></dt><dd>sections</dd>
+        <dt><kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></dt><dd>move (arrows too)</dd>
+        <dt><kbd>space</kbd></dt><dd>actions for what's selected</dd>
+        <dt><kbd>:</kbd> <kbd>ctrl-p</kbd></dt><dd>palette · <span class="dim">"swap 10 wqi to usdt"</span></dd>
+        <dt><kbd>s</kbd> <kbd>r</kbd> <kbd>t</kbd></dt><dd>send · receive · trade</dd>
+        <dt><kbd>c</kbd> <kbd>w</kbd></dt><dd>convert QUAI ↔ Qi · wrap</dd>
+        <dt><kbd>g</kbd> then a letter</dt><dd>jump to a screen</dd>
+        <dt><kbd>'</kbd> then a label</dt><dd>jump to a labeled row</dd>
+        <dt><kbd>$</kbd></dt><dd>hide the balance</dd>
+        <dt><kbd>ctrl-l</kbd></dt><dd>lock</dd>
+      </dl>
+      <p class="keys-note">This page speaks the same language. Press <kbd>?</kbd>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 · THEMES ═════════════════════════════════════════════════════ -->
+<section id="themes" class="block" data-n="7" data-name="themes">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">7</span> themes</p>
+    <h2>31 themes.<br>Zero browser tabs.</h2>
+    <p class="sec-lede">Quai Red, Tokyo Night, Catppuccin, Gruvbox, Nord, Rosé Pine and more. On Omarchy it follows your desktop theme live. Every palette is contrast-checked: body text ≥ 4.5:1, states ≥ 3:1. Pick one to repaint this page.</p>
+  </header>
+
+  <div class="grid-2 themes-row">
+    <div class="panel showroom">
+      <span class="t">▸ theme showroom · type to filter</span>
+      <input class="filter" id="theme-filter" type="text" placeholder="filter…" aria-label="Filter themes" autocomplete="off" spellcheck="false">
+      <ul class="theme-list" id="theme-list" role="listbox" aria-label="Themes"></ul>
+    </div>
+    <figure class="panel clip">
+      <span class="t">first run · showroom</span>
+      <video class="loop" muted loop playsinline preload="none" poster="/assets/img/themes.jpg" aria-label="The theme showroom cycling through palettes">
+        <source src="/assets/video/themes.mp4" type="video/mp4">
+      </video>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══ 0 · STATUS ═════════════════════════════════════════════════════ -->
+<section id="status" class="block" data-n="0" data-name="status">
+  <header class="sec-head">
+    <p class="sec-k"><span class="k">0</span> status</p>
+    <h2>Alpha.<br><span class="acc">Honest about it.</span></h2>
+    <p class="sec-lede">The public release is coming soon. Here's where it stands today and what it won't ever do.</p>
+  </header>
+
+  <div class="grid-3">
+    <div class="panel st">
+      <span class="t"><span class="ok">●</span> works today</span>
+      <ul>
+        <li>QUAI + Qi on Cyprus-1, mainnet and Orchard</li>
+        <li>swaps across Quainance and a shortlist of QuaiSwap pools</li>
+        <li>LP, gauge staking, harvest</li>
+        <li>NFTs: gallery, transfers, Bazarr buy and list</li>
+        <li>sealed messages and public channels</li>
+        <li>Linux x86-64 · macOS (Apple Silicon, Intel)</li>
+      </ul>
+    </div>
+    <div class="panel st">
+      <span class="t"><span class="pend">◔</span> not yet</span>
+      <ul>
+        <li>cross-zone sends and accounts</li>
+        <li>offline signing</li>
+        <li>browser / dApp integration</li>
+        <li>signed and notarized macOS builds</li>
+        <li>Seaport fills, listing creation beyond Zora asks</li>
+      </ul>
+    </div>
+    <div class="panel st">
+      <span class="t"><span class="down">✗</span> never, by decision</span>
+      <ul>
+        <li><b>bridging.</b> It would mean holding EVM keys, and that changes the threat model.</li>
+        <li><b>launching tokens.</b> You can trade the curves. You can't mint them here.</li>
+        <li><b>APY bait, "moon" talk.</b> A reward APR shows <code>—</code> when it can't be derived. It isn't guessed.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel lit cta">
+    <span class="t">▸ get ready</span>
+    <div class="cta-inner">
+      <div>
+        <h3 class="cta-h">Your keys. Your node. <span class="acc">Your terminal.</span></h3>
+        <p>Watch the repo to hear about the public release first. If you're already running a node and aren't afraid of alpha software, the installer is live. It checks the binary against <code>SHA256SUMS</code>, compiles nothing and never runs as root.</p>
+        <div class="ctas">
+          <a class="btn primary" href="https://github.com/mpoletiek/quai-terminal" rel="noopener">★ github.com/mpoletiek/quai-terminal</a>
+        </div>
+      </div>
+      <div class="install">
+        <p class="install-l">early access · alpha · read the script first</p>
+        <div class="install-box">
+          <code id="install-cmd">curl -fsSL https://raw.githubusercontent.com/mpoletiek/quai-terminal/main/install.sh | sh</code>
+          <button type="button" class="copy" id="copy-install" aria-label="Copy install command">copy</button>
+        </div>
+        <p class="install-note">Try small amounts first. The SDK is alpha too.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <p class="wm-small" aria-hidden="true">◆ QUAI TERMINAL</p>
+  <p>Alpha software. Not financial advice. MIT licensed.</p>
+  <p class="dim">This page loads no analytics, no trackers and nothing from a third party. Fonts, video and code are served from here.</p>
+  <p class="dim">Built on Quai Network · <a href="https://github.com/mpoletiek/quai-terminal" rel="noopener">source</a></p>
+</footer>
+
+<!-- the TUI's key footer -->
+<div class="keys-bar" aria-hidden="true">
+  <span><kbd>j</kbd><kbd>k</kbd> scroll</span>
+  <span><kbd>1</kbd>–<kbd>7</kbd> <kbd>0</kbd> sections</span>
+  <span><kbd>:</kbd> palette</span>
+  <span><kbd>T</kbd> theme</span>
+  <span><kbd>L</kbd> lock</span>
+  <span><kbd>?</kbd> more</span>
+</div>
+
+<!-- ─── overlays ─────────────────────────────────────────────────────── -->
+<div class="overlay" id="palette" hidden>
+  <div class="modal panel lit" role="dialog" aria-modal="true" aria-label="Command palette">
+    <span class="t">▸ palette</span>
+    <div class="pal-in"><span class="acc">:</span><input id="pal-input" type="text" autocomplete="off" spellcheck="false" aria-label="Command" placeholder="go markets · theme nord · lock · install"></div>
+    <ul id="pal-list" class="pal-list" role="listbox"></ul>
+    <p class="modal-foot">↑↓ choose · enter run · esc close</p>
+  </div>
+</div>
+
+<div class="overlay" id="help" hidden>
+  <div class="modal panel lit" role="dialog" aria-modal="true" aria-label="Keys">
+    <span class="t">▸ ? keys on this page</span>
+    <dl class="keys-kv">
+      <dt><kbd>j</kbd> <kbd>k</kbd></dt><dd>scroll down / up</dd>
+      <dt><kbd>g</kbd><kbd>g</kbd> / <kbd>G</kbd></dt><dd>top / bottom</dd>
+      <dt><kbd>1</kbd>–<kbd>7</kbd> <kbd>0</kbd></dt><dd>jump to a section</dd>
+      <dt><kbd>[</kbd> <kbd>]</kbd></dt><dd>previous / next section</dd>
+      <dt><kbd>:</kbd> <kbd>ctrl-k</kbd></dt><dd>command palette</dd>
+      <dt><kbd>T</kbd></dt><dd>next theme</dd>
+      <dt><kbd>L</kbd></dt><dd>lock the page</dd>
+      <dt><kbd>enter</kbd></dt><dd>play the teaser (from the top)</dd>
+      <dt><kbd>g</kbd><kbd>h</kbd></dt><dd>open the repo</dd>
+      <dt><kbd>esc</kbd></dt><dd>close / reject</dd>
+      <dt class="dim">↑↑↓↓←→←→ba</dt><dd class="dim">you know what it does</dd>
+    </dl>
+    <p class="modal-foot">esc close</p>
+  </div>
+</div>
+
+<div class="lock" id="lock" hidden>
+  <canvas id="lock-rain" aria-hidden="true"></canvas>
+  <div class="lock-inner" role="dialog" aria-modal="true" aria-label="Locked">
+    <div class="wordmark" id="lock-wordmark" role="img" aria-label="Quai Terminal"></div>
+    <p class="lock-meta" id="lock-meta"></p>
+    <div class="lock-box panel">
+      <span class="t">locked</span>
+      <p><span class="dim">wallet</span> visitor · <span class="dim">network</span> mainnet</p>
+      <p class="lock-hint">press any key <span class="cur"></span></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

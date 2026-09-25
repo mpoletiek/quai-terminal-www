@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quai-terminal-www.vercel.app/sitemap.xml

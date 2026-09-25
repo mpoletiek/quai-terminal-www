@@ -1,0 +1,14 @@
+{
+  "name": "Quai Terminal",
+  "short_name": "Quai Terminal",
+  "description": "A self-custodial wallet and trading terminal for Quai Network.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080606",
+  "theme_color": "#080606",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
