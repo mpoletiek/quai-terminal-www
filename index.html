@@ -106,7 +106,7 @@
       <a class="btn primary" href="#teaser" data-action="play-teaser">▶ watch the teaser <kbd>enter</kbd></a>
       <a class="btn" href="https://github.com/mpoletiek/quai-terminal" rel="noopener">★ watch the repo <kbd>g h</kbd></a>
     </div>
-    <p class="meta">v0.1 alpha · Linux x86-64 · macOS · MIT · no browser required</p>
+    <p class="meta">v0.1 alpha · Linux x86-64 · macOS · MIT · best in Ghostty or kitty</p>
   </div>
   <a class="scroll-cue" href="#teaser" aria-label="Scroll down"><kbd>j</kbd> ↓</a>
 </section>
@@ -276,7 +276,7 @@
     </article>
     <article class="feat">
       <h3><span class="g">✉</span> sealed messages</h3>
-      <p>On-chain DMs, each encrypted to one person with HPKE and weekly keys. They're sent from a messaging account, never your main one. Old keys are deleted, so a key stolen later can't read the past.</p>
+      <p>On-chain DMs, each encrypted to one person with HPKE and weekly keys. Every account is its own messaging identity, so you can keep one just for chat, apart from your holdings. Old keys are deleted, so a key stolen later can't read the past.</p>
     </article>
     <article class="feat">
       <h3><span class="g">⏻</span> kill switches</h3>
@@ -306,7 +306,8 @@
       <dt>contracts</dt><dd>routers, factories, WQI and WQUAI pinned by bytecode hash</dd>
       <dt>daemon</dt><dd>password handoff checked with <code>SO_PEERCRED</code> · sent once · never stored</dd>
       <dt>transport</dt><dd>rustls · no redirects to other hosts · per-host request budgets</dd>
-      <dt>tests</dt><dd>780+ · devnet end-to-end suites for swaps, wraps, NFTs and messaging</dd>
+      <dt>pictures</dt><dd>decoded in a helper process with no keys · seccomp allowlist on Linux</dd>
+      <dt>tests</dt><dd>860+ · devnet end-to-end suites for swaps, wraps, NFTs and messaging</dd>
       <dt>license</dt><dd>MIT</dd>
     </dl>
   </div>
@@ -390,6 +391,33 @@
     <h2>Alpha.<br><span class="acc">Honest about it.</span></h2>
     <p class="sec-lede">The public release is coming soon. Here's where it stands today and what it won't ever do.</p>
   </header>
+
+  <div class="rig">
+    <p class="sec-k rig-k">recommended rig</p>
+    <div class="grid-2">
+      <div class="panel lit rig-panel">
+        <span class="t">▸ terminal · best in Ghostty or kitty</span>
+        <p class="rig-h">Run it in a modern terminal.</p>
+        <p>Quai Terminal speaks the kitty graphics protocol. In <a href="https://ghostty.org" rel="noopener">Ghostty</a> and <a href="https://sw.kovidgoyal.net/kitty/" rel="noopener">kitty</a>, token icons, NFT thumbnails and QR codes are real bitmaps and charts are drawn with finer glyphs. You also get 24-bit color and the full keyboard protocol.</p>
+        <ul class="rig-list">
+          <li><span class="ok">✓</span> Ghostty and kitty: pixels, truecolor, every key</li>
+          <li><span class="ok">✓</span> On a Mac? Ghostty runs natively on macOS.</li>
+          <li><span class="dim">·</span> any other UTF-8 terminal: half-block pictures and braille charts</li>
+          <li><span class="dim">·</span> the Linux console or <code>--plain</code>: text only, every feature intact</li>
+        </ul>
+      </div>
+      <div class="panel lit rig-panel">
+        <span class="t">▸ node · fastest on your own</span>
+        <p class="rig-h">Run your own Quai node.</p>
+        <p>Point it at a local go-quai node and every read comes from your own hardware instead of a public endpoint: balances, quotes, markets, the tape, and the state behind each review. That's the fastest Quai Terminal gets. It's also the most private, because no public RPC sees which addresses you ask about.</p>
+        <div class="install-box rig-cmd"><code>quai-terminal network monitor mainnet http://127.0.0.1:9200</code></div>
+        <ul class="rig-list">
+          <li><span class="ok">✓</span> reviews are confirmed by two nodes: yours, witnessed by the main RPC</li>
+          <li><span class="dim">·</span> transactions are still broadcast through the main RPC, since a monitoring node has no hashrate behind it</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <div class="grid-3">
     <div class="panel st">
