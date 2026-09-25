@@ -11,7 +11,7 @@ npm run preview   # serve dist/
 
 ## Deploy (Vercel)
 
-Production is **https://quaiterminal.org** (`www.` redirects to the apex). DNS lives at Cloudflare: `A quaiterminal.org 76.76.21.21` and `A www 76.76.21.21`, both DNS-only (grey cloud), so Vercel issues the certificates.
+Production is **https://quaiterminal.org**. There's no `www` subdomain. DNS is at Cloudflare: `A quaiterminal.org 76.76.21.21`, DNS-only (grey cloud), so Vercel issues the certificate.
 
 **Installer URLs.** `quaiterminal.org/install.sh` and `/uninstall.sh` are rewrites that proxy the scripts from the wallet repo's `main` branch, so the site never holds a stale copy. They're served as `text/plain` with a 5-minute cache. `curl -fsSL https://quaiterminal.org/install.sh | sh` gets the script directly, with no redirect to follow.
 
